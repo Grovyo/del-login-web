@@ -239,7 +239,7 @@ function page() {
                                   onOTPVerify();
                                 }
                               }}
-                              className="otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 vs:h-[50px] vs:w-[50px] w-[45px] h-[45px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
+                              className="z-30 otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 vs:h-[50px] vs:w-[50px] w-[45px] h-[45px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
                               value={value}
                               onChange={(event) =>
                                 handleInputChange(event, index)
@@ -282,7 +282,7 @@ function page() {
                     <div className="p-2 flex justify-center items-center w-full">
                       <div
                         onClick={onOTPVerify}
-                        className="h-[50px] w-full select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-xl text-white"
+                        className="z-30 h-[50px] w-full select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-xl text-white"
                       >
                         {loading && (
                           <CgSpinner size={20} className=" animate-spin" />
@@ -328,7 +328,7 @@ function page() {
                           value={number}
                           onChange={(e) => setNumber(e.target.value)}
                           placeholder="Phone no."
-                          className="h-[50px] w-[260px] text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
+                          className="h-[50px] z-30 w-[260px] text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
                         />
                       </div>
                     </div>
@@ -355,7 +355,7 @@ function page() {
                     >
                       <div
                         onClick={onSignup}
-                        className="h-[50px] select-none cursor-pointer bg-black w-full flex items-center justify-center rounded-xl text-white "
+                        className="h-[50px] z-30 select-none cursor-pointer bg-black w-full flex items-center justify-center rounded-xl text-white "
                       >
                         {loading && (
                           <CgSpinner size={20} className="m-1 animate-spin" />
