@@ -10,6 +10,8 @@ import { API } from "@/Essentials";
 import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
 import Lotties from "@/app/Lotties";
+import Image from "next/image";
+import bg from "../../assets/Images/bg.png";
 
 function page() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -181,176 +183,204 @@ function page() {
 
   return (
     <>
-      {anim ? (
-        <Lotties />
-      ) : (
-        <>
-          {load ? (
-            <>
-              <div
-                className="fixed inset-0 bg-[#81818117]
-        w-full z-20"
-              ></div>
-              <div className="fixed inset-0 w-full h-screen">
-                <div className="flex justify-center items-center h-[100vh]">
-                  <div
-                    className="animate-spin text-2xl
-      "
-                  >
-                    <AiOutlineReload />
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div>
-              <Toaster toastOptions={{ duration: 4000 }} />
-              <div id="recaptcha-container"></div>
-              {showOTP ? (
-                // OTP
-                <div className="items-center flex flex-col justify-between">
-                  <div className="font-bold  pn:max-sm:text-[30px] text-[25px] text-[#313C58] ">
-                    Verification
-                  </div>
-                  <div className="flex flex-col py-2 justify-center items-center">
-                    <div className="text-[#96A0AD] text-[15px] pn:max-sm:text-[12px] ">
-                      We’re sending an SMS to phone number
-                    </div>
-                    <div className="text-[#96A0AD] pn:max-sm:text-[12px] text-[15px] ">
-                      <span className="text-[#0075FF]">+91{number}</span> Wrong
-                      Number ?
-                    </div>
-                  </div>
-
-                  <>
-                    <div className="mx-auto max-w-md w-full flex justify-center gap-2 p-10">
-                      {otp.map((value, index) => (
-                        <>
-                          <input
-                            key={`otp-field-${index}`}
-                            onKeyPress={(e) => {
-                              if (e.key === "Enter") {
-                                onOTPVerify();
-                              }
-                            }}
-                            className="otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 h-[50px] w-[50px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
-                            value={value}
-                            onChange={(event) =>
-                              handleInputChange(event, index)
-                            }
-                            ref={otpInputRefs[index]}
-                            maxLength={1}
-                            type="number"
-                          />
-                        </>
-                      ))}
-                    </div>
-                  </>
-                  <div className="text-black font-semibold flex text-[15px] pt-8">
-                    <div className="text-center">
-                      {come === 1 ? (
-                        <div className="space-x-4 flex ">
-                          <div className="text-[#3e3e3e]">
-                            Don't receive code ?{" "}
-                            <button
-                              className={` text-blue-600 rounded ${
-                                isActive ? "" : ""
-                              }`}
-                              onClick={toggleTimer}
-                            >
-                              Request Again
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <h1
-                          className={`${
-                            come === 1 ? "hidden" : "text-[16px] text-[#3e3e3e]"
-                          }`}
-                        >
-                          Resend: 00:{seconds}
-                        </h1>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    onClick={onOTPVerify}
-                    className="h-[50px] w-[250px] select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-2xl text-white"
-                  >
-                    {loading && (
-                      <CgSpinner size={20} className="m-1 animate-spin" />
-                    )}
-                    <span className={`${loading ? "hidden" : ""}`}>
-                      Continue
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                // Phone
-                <div className=" bg-white  flex flex-col justify-between items-center">
-                  <div className="font-bold text-center text-[25px] font-fugaz text-[#171717] ">
-                    Start your Adventure.
-                    <div className="text-[#0075ff]">Let's Begin!</div>
-                  </div>
-                  <div className="flex flex-col justify-center items-center  py-2">
-                    <div className="text-[#96A0AD] text-[15px] pn:max-sm:text-[12px] text-center px-10">
-                      We've missed you! Please sign in to catch up on what
-                      you've missed
-                    </div>
-                  </div>
-
-                  {/* phone */}
-                  <div
-                    className={`${
-                      change === 1
-                        ? "flex justify-start flex-col  items-start  py-10"
-                        : "hidden"
-                    }`}
-                  >
-                    <div className="bg-[#f7f7f7] flex items-center justify-center rounded-2xl">
-                      <div className="text-[#171717] pl-2">+91</div>
-                      <div className="h-[20px] ml-2 border-r-2 border-slate-200" />
-                      <input
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") {
-                            onSignup();
-                          }
-                        }}
-                        value={number}
-                        onChange={(e) => setNumber(e.target.value)}
-                        placeholder="Phone no."
-                        className="h-[50px] w-[260px] text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
-                      />
-                    </div>
-                  </div>
-                  <div className={`${change === 1 ? "py-1" : "hidden"}`}>
+      <div className="relative pn:max-sm:w-screen h-screen">
+        <div className="absolute pn:max-sm:w-screen border-2 h-full z-10 top-0 left-0 right-0">
+          <Image src={bg} alt="image" />
+        </div>
+        {anim ? (
+          <Lotties />
+        ) : (
+          <>
+            {load ? (
+              <>
+                <div
+                  className="fixed inset-0 bg-[#81818117]
+             w-full z-20"
+                ></div>
+                <div className="fixed inset-0 w-full h-screen">
+                  <div className="flex justify-center items-center h-[100vh]">
                     <div
-                      onClick={onSignup}
-                      className="h-[50px] w-[300px] select-none cursor-pointer bg-black  flex items-center justify-center rounded-2xl text-white "
+                      className="animate-spin text-2xl
+      "
                     >
-                      {loading && (
-                        <CgSpinner size={20} className="m-1 animate-spin" />
-                      )}
-                      <span className={`${loading ? "hidden" : ""}`}>
-                        Continue
-                      </span>
+                      <AiOutlineReload />
                     </div>
                   </div>
-
-                  <div className="flex fixed bottom-10 text-[#414141] gap-4 text-[12px] select-none">
-                    <Link href={"../terms"}>T&C</Link>
-                    <Link href={"../privacy"}>Privacy</Link>
-                    <Link href={"../contact"}>Contact Us</Link>
-                    <Link href={"../shipping"}>Shipping</Link>
-                    <Link href={"../cancellation"}>Cancellation</Link>
-                  </div>
                 </div>
-              )}
-              <div style={{ marginBottom: "50%" }} />
-            </div>
-          )}
-        </>
-      )}
+              </>
+            ) : (
+              <div className="w-full">
+                <Toaster toastOptions={{ duration: 4000 }} />
+                <div id="recaptcha-container"></div>
+                {showOTP ? (
+                  // OTP
+                  <div className=" pt-[120px] w-full z-30 flex flex-col justify-between">
+                    <div className="font-bold px-4 z-30 pn:max-sm:text-[30px] text-[22px] text-[#313C58] ">
+                      OTP Verification
+                    </div>
+                    <div className="flex flex-col py-2 px-4 justify-center ">
+                      <div className="z-30">
+                        We’re sending an SMS to phone number
+                      </div>
+                      {/* <div className="text-[#96A0AD] pn:max-sm:text-[12px] text-[15px] ">
+                        <span className="text-[#0075FF]">+91{number}</span> Wrong
+                        Number ?
+                      </div> */}
+                    </div>
+
+                    <>
+                      <div className=" max-w-md w-full flex justify-center gap-2 p-4 py-10">
+                        {otp.map((value, index) => (
+                          <>
+                            <input
+                              key={`otp-field-${index}`}
+                              onKeyPress={(e) => {
+                                if (e.key === "Enter") {
+                                  onOTPVerify();
+                                }
+                              }}
+                              className="otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 vs:h-[50px] vs:w-[50px] w-[45px] h-[45px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
+                              value={value}
+                              onChange={(event) =>
+                                handleInputChange(event, index)
+                              }
+                              ref={otpInputRefs[index]}
+                              maxLength={1}
+                              type="number"
+                            />
+                          </>
+                        ))}
+                      </div>
+                    </>
+                    <div className="text-black font-semibold flex justify-center items-center text-[15px] pt-4">
+                      <div className="text-center">
+                        {come === 1 ? (
+                          <div className="flex gap-4">
+                            <div className="text-[#3e3e3e]">
+                              Don't receive code ?{" "}
+                              <button
+                                className={` text-blue-600 rounded ${isActive ? "" : ""
+                                  }`}
+                                onClick={toggleTimer}
+                              >
+                                Request Again
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <h1
+                            className={` ${come === 1
+                              ? "hidden "
+                              : "text-[16px] text-[#3e3e3e]"
+                              }`}
+                          >
+                            Resend: 00:{seconds}
+                          </h1>
+                        )}
+                      </div>
+                    </div>
+                    <div className="p-2 flex justify-center items-center w-full">
+                      <div
+                        onClick={onOTPVerify}
+                        className="h-[50px] w-full select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-xl text-white"
+                      >
+                        {loading && (
+                          <CgSpinner size={20} className=" animate-spin" />
+                        )}
+                        <span className={`${loading ? "hidden w-full" : ""}`}>
+                          Continue
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // Phone
+                  <div className="z-20 pt-[120px] w-full bg-white h-screen flex flex-col">
+                    <div className="font-bold z-30 px-4 text-left text-[22px] text-[#171717] ">
+                      Enter Your Mobile Number
+                    </div>
+                    {/* <div className="flex flex-col z-30 justify-center items-center  py-2">
+                      <div className="text-[#96A0AD] text-[15px] pn:max-sm:text-[12px] text-center px-10">
+                        We've missed you! Please sign in to catch up on what
+                        you've missed
+                      </div>
+                    </div> */}
+
+                    {/* phone */}
+                    <div
+                      className={`${change === 1
+                        ? "flex justify-start flex-col p-2 items-start pt-10"
+                        : "hidden"
+                        }`}
+                    >
+                      <div className="text-left py-3 font-medium">
+                        Mobile Number
+                      </div>
+                      <div className="bg-[#f7f7f7] w-full flex items-center rounded-xl">
+                        <div className="text-[#171717] pl-2">+91</div>
+                        <div className="h-[20px] ml-2 border-r-2 border-slate-200" />
+                        <input
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              onSignup();
+                            }
+                          }}
+                          value={number}
+                          onChange={(e) => setNumber(e.target.value)}
+                          placeholder="Phone no."
+                          className="h-[50px] w-[260px] text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className={`${change === 1
+                        ? "z-20 flex gap-2 text-[#1F1F1F] text-sm p-2 justify-center items-center"
+                        : "hidden"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="bg-[#FF8811] w-6 h-6 text-white"
+                      />
+                      <div>
+                        I have Read and agree to the Terms of Use and
+                        acknowledge the Privacy Policy.
+                      </div>
+                    </div>
+                    <div
+                      className={`${change === 1
+                        ? " py-1 pt-7 px-2 flex justify-center w-full items-center"
+                        : "hidden"
+                        }`}
+                    >
+                      <div
+                        onClick={onSignup}
+                        className="h-[50px] select-none cursor-pointer bg-black w-full flex items-center justify-center rounded-xl text-white "
+                      >
+                        {loading && (
+                          <CgSpinner size={20} className="m-1 animate-spin" />
+                        )}
+                        <span className={`${loading ? "hidden" : ""}`}>
+                          Continue
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex fixed justify-center items-center w-full bottom-10 text-[#414141] gap-4 text-[12px] select-none">
+                      <Link href={"../terms"}>T&C</Link>
+                      <Link href={"../privacy"}>Privacy</Link>
+                      <Link href={"../contact"}>Contact Us</Link>
+                      <Link href={"../shipping"}>Shipping</Link>
+                      <Link href={"../cancellation"}>Cancellation</Link>
+                    </div>
+                  </div>
+                )}
+                <div style={{ marginBottom: "50%" }} />
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }
