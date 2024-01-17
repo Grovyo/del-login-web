@@ -30,6 +30,7 @@ function page() {
   const [pass, setPass] = useState("");
   const [load, setLoad] = useState(false);
   const [anim, setAnim] = useState(false);
+  const [aage, setAage] = useState(false)
 
   const handleInputChange = (event, index) => {
     const { value } = event.target;
@@ -92,7 +93,7 @@ function page() {
 
   const fetchid = async () => {
     await axios
-      .post(`${API}/signup-mobile`, { phone: "91" + number })
+      .post(`${API}/signup-delivery`, { phone: "91" + number })
       .then(function (res) {
         if (res.data.success === true) {
           if (res.data.userexists) {
@@ -145,24 +146,35 @@ function page() {
   }
 
   function onSignup() {
-    setLoading(true);
-    onCaptchaVerify();
-    setSeconds(30);
-    const appVerifier = window.recaptchaVerifier;
+    if (!number) {
+      toast.error("Please Enter Mobile Number")
+      return
+    } else if (number.length === 10) {
+      if (aage) {
+        setLoading(true);
+        onCaptchaVerify();
+        setSeconds(30);
+        const appVerifier = window.recaptchaVerifier;
 
-    const formatPh = "+91" + number;
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        setLoading(false);
-        setShowOTP(true);
+        const formatPh = "+91" + number;
+        signInWithPhoneNumber(auth, formatPh, appVerifier)
+          .then((confirmationResult) => {
+            window.confirmationResult = confirmationResult;
+            setLoading(false);
+            setShowOTP(true);
 
-        toast.success("Successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+            toast.success("Successfully!");
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoading(false);
+          });
+      } else {
+        toast.error("Please Accept the Terms and Conditions")
+      }
+    } else {
+      toast.error("Please Enter 10 digit mobile number")
+    }
   }
 
   function onOTPVerify() {
@@ -229,7 +241,7 @@ function page() {
                     </div>
 
                     <>
-                      <div className=" max-w-md w-full flex justify-center gap-2 p-4 py-10">
+                      <div className=" max-w-md z-30 w-full flex justify-center gap-2 p-4 py-10">
                         {otp.map((value, index) => (
                           <>
                             <input
@@ -239,7 +251,7 @@ function page() {
                                   onOTPVerify();
                                 }
                               }}
-                              className="z-30 otp__digit otp__field md:hidden outline-slate-200 bg-slate-100 vs:h-[50px] vs:w-[50px] w-[45px] h-[45px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
+                              className="otp__digit otp__field z-30  md:hidden outline-slate-200 bg-slate-100 vs:h-[50px] vs:w-[50px] w-[45px] h-[45px] rounded-2xl flex justify-center items-center text-center text-[#3e3e3e]"
                               value={value}
                               onChange={(event) =>
                                 handleInputChange(event, index)
@@ -252,7 +264,7 @@ function page() {
                         ))}
                       </div>
                     </>
-                    <div className="text-black font-semibold flex justify-center items-center text-[15px] pt-4">
+                    <div className="text-black z-30 font-semibold flex justify-center items-center text-[15px] pt-4">
                       <div className="text-center">
                         {come === 1 ? (
                           <div className="flex gap-4">
@@ -279,10 +291,10 @@ function page() {
                         )}
                       </div>
                     </div>
-                    <div className="p-2 flex justify-center items-center w-full">
+                    <div className="p-2 flex justify-center z-30 items-center w-full">
                       <div
                         onClick={onOTPVerify}
-                        className="z-30 h-[50px] w-full select-none cursor-pointer bg-black mt-8 flex items-center justify-center rounded-xl text-white"
+                        className="h-[50px] w-full select-none z-30 cursor-pointer bg-black mt-8 flex items-center justify-center rounded-xl text-white"
                       >
                         {loading && (
                           <CgSpinner size={20} className=" animate-spin" />
@@ -309,7 +321,7 @@ function page() {
                     {/* phone */}
                     <div
                       className={`${change === 1
-                        ? "flex justify-start flex-col p-2 items-start pt-10"
+                        ? "flex justify-start flex-col p-2 z-30 items-start pt-10"
                         : "hidden"
                         }`}
                     >
@@ -328,7 +340,7 @@ function page() {
                           value={number}
                           onChange={(e) => setNumber(e.target.value)}
                           placeholder="Phone no."
-                          className="h-[50px] z-30 w-[260px] text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
+                          className="h-[50px] w-[260px] z-30 text-[#171717] outline-none bg-[#f7f7f7] rounded-r-2xl px-2 p-2 "
                         />
                       </div>
                     </div>
@@ -340,7 +352,9 @@ function page() {
                     >
                       <input
                         type="checkbox"
-                        className="bg-[#FF8811] w-6 h-6 text-white"
+                        checked={aage}
+                        onChange={() => setAage(!aage)}
+                        className="bg-[#FF8811] z-30 w-6 h-6 text-white"
                       />
                       <div>
                         I have Read and agree to the Terms of Use and
