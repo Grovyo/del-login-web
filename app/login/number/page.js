@@ -95,6 +95,7 @@ function page() {
     await axios
       .post(`${API}/signup-delivery`, { phone: "91" + number })
       .then(function (res) {
+        console.log(res.data)
         if (res.data.success === true) {
           if (res.data.userexists) {
             if (window.ReactNativeWebView) {
@@ -196,11 +197,13 @@ function page() {
   return (
     <>
       <div className="relative pn:max-sm:w-screen h-screen">
-        <div className="absolute pn:max-sm:w-screen border-2 h-full z-10 top-0 left-0 right-0">
+        <div className={`absolute pn:max-sm:w-screen border-2 h-full z-10 top-0 left-0 right-0 ${anim ? "hidden" : null}`}>
           <Image src={bg} alt="image" />
         </div>
         {anim ? (
-          <Lotties />
+          <div className="flex justify-center items-center h-screen">
+            <Lotties />
+          </div>
         ) : (
           <>
             {load ? (
